@@ -14,11 +14,16 @@ export const computeProductTotalPrice = (
     };
   }
 
-  const totalPrice =
+  const totalDiscount =
     Number(product.basePrice) * (product.discountPercentage / 100);
+
+  let finalPrice = Number(product.basePrice) - totalDiscount;
+
+  // Arredonda sempre para baixo para evitar valores quebrados
+  finalPrice = Math.floor(finalPrice);
 
   return {
     ...product,
-    totalPrice,
+    totalPrice: finalPrice,
   };
 };
