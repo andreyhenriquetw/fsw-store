@@ -1,16 +1,10 @@
-import { Card, CardContent } from "@/components/ui/card";
-
 const Footer = () => {
   return (
-    <footer>
-      <Card>
-        <CardContent className="px-5 py-6 text-center">
-          <p className="text-sm text-gray-400">
-            © 2025 <span className="font-bold">AY Store</span>
-          </p>
-        </CardContent>
-      </Card>
-    </footer>
+    <div className="bg-accent px-8 py-4 text-center text-[0.625rem] opacity-75 lg:text-sm">
+      <div className="mx-auto lg:container">
+        © 2025 <span className="font-semibold">AY Store</span>
+      </div>
+    </div>
   );
 };
 
