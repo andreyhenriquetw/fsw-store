@@ -8,7 +8,14 @@ import {
 } from "lucide-react";
 import { Button } from "./button";
 import { Card } from "./card";
-import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "./sheet";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTrigger,
+} from "./sheet";
+import Link from "next/link";
 
 const Header = () => {
   return (
@@ -41,10 +48,17 @@ const Header = () => {
               Ofertas
             </Button>
 
-            <Button variant="outline" className="w-full justify-start gap-2">
-              <ListOrderedIcon size={16} />
-              Catálago
-            </Button>
+            <SheetClose asChild>
+              <Link href="/catalog">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-2"
+                >
+                  <ListOrderedIcon size={16} />
+                  Catálago
+                </Button>
+              </Link>
+            </SheetClose>
           </div>
         </SheetContent>
       </Sheet>
