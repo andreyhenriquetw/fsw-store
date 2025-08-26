@@ -94,7 +94,9 @@ const ProductInfo = ({
       </div>
 
       {/* Botão de adicionar ao carrinho */}
-      <Button className="mt-8 font-bold uppercase">Adcionar ao carrinho</Button>
+      <Button className="mt-8 font-bold uppercase">
+        Adicionar ao carrinho
+      </Button>
 
       {/* Informações de entrega */}
       <div className="mt-5 flex items-center justify-between rounded-lg bg-accent px-5 py-2">
@@ -106,7 +108,7 @@ const ProductInfo = ({
               Entrega via <span className="font-bold">Correios</span>
             </p>
             <p className="text-xs text-[#8162FF]">
-              Envio para <span className="font-bold"> todo Brasil</span>
+              Envio para <span className="font-bold">todo Brasil</span>
             </p>
           </div>
         </div>
