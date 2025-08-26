@@ -3,23 +3,21 @@
 import { Button } from "@/components/ui/button";
 import DiscountBadge from "@/components/ui/discount-badge";
 import { ProductWithTotalPrice } from "@/helpers/product";
+import { CartContext } from "@/providers/cart";
 import { ArrowLeftIcon, ArrowRightIcon, Star, TruckIcon } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 // Tipagem das props que o componente recebe
 interface ProductInfoProps {
-  product: Pick<
-    ProductWithTotalPrice,
-    "basePrice" | "description" | "discountPercentage" | "totalPrice" | "name"
-  >;
+  product: ProductWithTotalPrice;
 }
 
 // Componente principal
-const ProductInfo = ({
-  product: { name, basePrice, totalPrice, description, discountPercentage },
-}: ProductInfoProps) => {
+const ProductInfo = ({ product }: ProductInfoProps) => {
   // Estado para controlar a quantidade escolhida pelo usuário
   const [quantity, setQuantity] = useState(1);
+
+  const { addProductToCart } = useContext(CartContext);
 
   // Função para diminuir a quantidade (mínimo = 1)
   const handleDecreaseQuantityClick = () => {
@@ -31,10 +29,14 @@ const ProductInfo = ({
     setQuantity((prev) => prev + 1);
   };
 
+  const handleAddToCartClick = () => {
+    addProductToCart({ ...product, quantity });
+  };
+
   return (
     <div className="flex flex-col px-5">
       {/* Nome do produto */}
-      <h2 className="text-lg">{name}</h2>
+      <h2 className="text-lg">{product.name}</h2>
 
       {/* Disponil em estoque */}
       <div>
@@ -61,16 +63,18 @@ const ProductInfo = ({
 
       {/* Preço e desconto */}
       <div className="item-center mt-2 flex gap-2">
-        <h1 className="text-xl font-bold">R$ {totalPrice.toFixed(2)}</h1>
-        {discountPercentage > 0 && (
-          <DiscountBadge>{discountPercentage}</DiscountBadge>
+        <h1 className="text-xl font-bold">
+          R$ {product.totalPrice.toFixed(2)}
+        </h1>
+        {product.discountPercentage > 0 && (
+          <DiscountBadge>{product.discountPercentage}</DiscountBadge>
         )}
       </div>
 
       {/* Preço original riscado (se houver desconto) */}
-      {discountPercentage > 0 && (
+      {product.discountPercentage > 0 && (
         <p className="text-sm line-through opacity-75">
-          R$ {Number(basePrice).toFixed(2)}
+          R$ {Number(product.basePrice).toFixed(2)}
         </p>
       )}
 
@@ -94,7 +98,10 @@ const ProductInfo = ({
       </div>
 
       {/* Botão de adicionar ao carrinho */}
-      <Button className="mt-8 font-bold uppercase">
+      <Button
+        className="mt-8 font-bold uppercase"
+        onClick={handleAddToCartClick}
+      >
         Adicionar ao carrinho
       </Button>
 
@@ -119,7 +126,9 @@ const ProductInfo = ({
       {/* Descrição do produto */}
       <div className="mt-5 flex flex-col gap-3"></div>
       <h3 className="font-bold">Descrição</h3>
-      <p className="mt-2 text-justify text-sm opacity-60">{description}</p>
+      <p className="mt-2 text-justify text-sm opacity-60">
+        {product.description}
+      </p>
     </div>
   );
 };
