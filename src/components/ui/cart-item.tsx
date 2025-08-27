@@ -9,10 +9,15 @@ interface CartItemProps {
 }
 
 const CartItem = ({ product }: CartItemProps) => {
-  const { decreseProductQuantity } = useContext(CartContext);
+  const { decreseProductQuantity, increaseProductQuantity } =
+    useContext(CartContext);
 
   const handleDecreseProductQuantityClick = () => {
     decreseProductQuantity(product.id);
+  };
+
+  const handleIncreaseProductQuantity = () => {
+    increaseProductQuantity(product.id);
   };
 
   return (
@@ -57,7 +62,12 @@ const CartItem = ({ product }: CartItemProps) => {
             {/* Quantidade atual */}
             <span className="text-xs">{product.quantity}</span>
 
-            <Button size="icon" variant="outline" className="h-8 w-8">
+            <Button
+              size="icon"
+              variant="outline"
+              className="h-8 w-8"
+              onClick={handleIncreaseProductQuantity}
+            >
               <ArrowRightIcon size={16} />
             </Button>
           </div>
