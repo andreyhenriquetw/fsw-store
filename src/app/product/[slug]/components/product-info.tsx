@@ -6,25 +6,20 @@ import { ProductWithTotalPrice } from "@/helpers/product";
 import { CartContext } from "@/providers/cart";
 import { ArrowLeftIcon, ArrowRightIcon, Star, TruckIcon } from "lucide-react";
 import { useContext, useState } from "react";
+import { FaWhatsapp } from "react-icons/fa";
 
-// Tipagem das props que o componente recebe
 interface ProductInfoProps {
   product: ProductWithTotalPrice;
 }
 
-// Componente principal
 const ProductInfo = ({ product }: ProductInfoProps) => {
-  // Estado para controlar a quantidade escolhida pelo usuário
   const [quantity, setQuantity] = useState(1);
-
   const { addProductToCart } = useContext(CartContext);
 
-  // Função para diminuir a quantidade (mínimo = 1)
   const handleDecreaseQuantityClick = () => {
     setQuantity((prev) => (prev === 1 ? prev : prev - 1));
   };
 
-  // Função para aumentar a quantidade
   const handleIncreaseQuantityClick = () => {
     setQuantity((prev) => prev + 1);
   };
@@ -33,35 +28,42 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
     addProductToCart({ ...product, quantity });
   };
 
+  // Função para abrir WhatsApp com informações do produto
+  const handleWhatsAppClick = () => {
+    const phoneNumber = "5593999034526"; // coloque seu número com DDD +55
+    const message = `Olá, tenho interesse no produto: 
+*${product.name}*
+Quantidade: ${quantity}
+Preço: R$ ${product.totalPrice.toFixed(2)} cada
+Total: R$ ${(product.totalPrice * quantity).toFixed(2)}
+
+Poderia me passar mais informações?`;
+
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+  };
+
   return (
     <div className="flex flex-col px-5">
-      {/* Nome do produto */}
       <h2 className="text-lg">{product.name}</h2>
 
-      {/* Disponil em estoque */}
       <div>
         <h1 className="mt-1 text-[#5c3dd9]">Disponível em estoque</h1>
       </div>
 
-      {/* Avaliação - 4 estrelas cheias e 1 vazia */}
       <div className="flex items-center gap-[3px]">
         {[1, 2, 3, 4].map((star) => (
           <Star
             key={star}
             size={14}
             strokeWidth={2}
-            className="fill-[#5c3dd9] text-[#5c3dd9]" // Estrela preenchida (cheia)
+            className="fill-[#5c3dd9] text-[#5c3dd9]"
           />
         ))}
-        <Star
-          size={14}
-          strokeWidth={2}
-          className="text-[#5c3dd9]" // Estrela vazia
-        />
+        <Star size={14} strokeWidth={2} className="text-[#5c3dd9]" />
         <p className="px-2 font-extralight opacity-60"> (avaliações)</p>
       </div>
 
-      {/* Preço e desconto */}
       <div className="item-center mt-2 flex gap-2">
         <h1 className="text-xl font-bold">
           R$ {product.totalPrice.toFixed(2)}
@@ -71,14 +73,12 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         )}
       </div>
 
-      {/* Preço original riscado (se houver desconto) */}
       {product.discountPercentage > 0 && (
         <p className="text-sm line-through opacity-75">
           R$ {Number(product.basePrice).toFixed(2)}
         </p>
       )}
 
-      {/* Seção de quantidade com botões de + e - */}
       <div className="mt-4 flex items-center gap-2">
         <Button
           size="icon"
@@ -87,7 +87,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         >
           <ArrowLeftIcon size={16} />
         </Button>
-        <span>{quantity}</span> {/* Quantidade atual */}
+        <span>{quantity}</span>
         <Button
           size="icon"
           variant="outline"
@@ -105,11 +105,18 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         Adicionar ao carrinho
       </Button>
 
-      {/* Informações de entrega */}
+      {/* Botão de WhatsApp */}
+      <Button
+        className="mt-3 bg-green-500 font-bold uppercase text-white hover:bg-green-600"
+        onClick={handleWhatsAppClick}
+      >
+        <FaWhatsapp className="absolute left-12" size={20} />
+        Comprar pelo WhatsApp
+      </Button>
+
       <div className="mt-5 flex items-center justify-between rounded-lg bg-accent px-5 py-2">
         <div className="flex items-center gap-2">
           <TruckIcon />
-
           <div className="flex flex-col">
             <p className="text-xs">
               Entrega via <span className="font-bold">Correios</span>
@@ -119,11 +126,9 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
             </p>
           </div>
         </div>
-
         <p className="text-xs font-bold">Frete grátis</p>
       </div>
 
-      {/* Descrição do produto */}
       <div className="mt-5 flex flex-col gap-3"></div>
       <h3 className="font-bold">Descrição</h3>
       <p className="mt-2 text-justify text-sm opacity-60">
