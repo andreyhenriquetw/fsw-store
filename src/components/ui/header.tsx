@@ -1,3 +1,5 @@
+"use client";
+
 import {
   HomeIcon,
   ListOrderedIcon,
@@ -18,7 +20,18 @@ import {
 import Link from "next/link";
 import Cart from "./cart";
 
+import { useContext } from "react";
+import { CartContext } from "@/providers/cart";
+
 const Header = () => {
+  const { products } = useContext(CartContext);
+
+  // Soma total da quantidade de produtos no carrinho
+  const totalQuantity = products.reduce(
+    (acc, product) => acc + product.quantity,
+    0,
+  );
+
   return (
     <Card className="flex items-center justify-between p-[1.875rem]">
       <Sheet>
@@ -72,8 +85,13 @@ const Header = () => {
 
       <Sheet>
         <SheetTrigger asChild>
-          <Button size="icon" variant="outline">
+          <Button size="icon" variant="outline" className="relative">
             <ShoppingCartIcon />
+            {totalQuantity > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs text-white ring-2 ring-white">
+                {totalQuantity}
+              </span>
+            )}
           </Button>
         </SheetTrigger>
 

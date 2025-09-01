@@ -5,6 +5,9 @@ import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
 import CartProvider from "@/providers/cart";
 
+import { ToastContainer } from "react-toastify"; // importação toastify
+import "react-toastify/dist/ReactToastify.css"; // estilos toastify
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -25,6 +28,8 @@ export default function RootLayout({
             <Header />
             <div className="flex-1">{children}</div>
             <Footer />
+            {/* Container para as notificações toastify */}
+            <ToastContainer position="top-right" autoClose={3000} />
           </CartProvider>
         </div>
       </body>
