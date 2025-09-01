@@ -2,6 +2,8 @@
 
 import { ProductWithTotalPrice } from "@/helpers/product";
 import { createContext, ReactNode, useMemo, useState } from "react";
+import { toast } from "react-toastify"; // Importar toastify para notificação
+import "react-toastify/dist/ReactToastify.css"; // Importar css do toastify
 
 export interface CartProduct extends ProductWithTotalPrice {
   quantity: number;
@@ -38,7 +40,7 @@ export const CartContext = createContext<ICartContext>({
 const CartProvider = ({ children }: { children: ReactNode }) => {
   const [products, setProducts] = useState<CartProduct[]>([]);
 
-  // Total  sem descontos
+  // Total sem descontos
   const subtotal = useMemo(() => {
     return products.reduce((acc, product) => {
       return acc + Number(product.basePrice) * product.quantity;
@@ -68,22 +70,21 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
               quantity: cartProduct.quantity + product.quantity,
             };
           }
-
           return cartProduct;
         }),
       );
 
+      toast.info(
+        `Quantidade do produto "${product.name}" aumentada no carrinho.`,
+      );
       return;
     }
-    // Se não, adicionar o producto  a lista
+    // Se não, adicionar o produto à lista
     setProducts((prev) => [...prev, product]);
+    toast.success(`Produto "${product.name}" adicionado ao carrinho!`);
   };
 
   const decreseProductQuantity = (productId: string) => {
-    // se a quantidade for 1, remova o produto do carrinho
-
-    //  se não, diminua a quantidade em 1
-
     setProducts((prev) =>
       prev
         .map((cartProduct) => {
@@ -93,7 +94,6 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
               quantity: cartProduct.quantity - 1,
             };
           }
-
           return cartProduct;
         })
         .filter((cartProduct) => cartProduct.quantity > 0),
@@ -101,10 +101,6 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const increaseProductQuantity = (productId: string) => {
-    // se a quantidade for 1, remova o produto do carrinho
-
-    //  se não, diminua a quantidade em 1
-
     setProducts((prev) =>
       prev.map((cartProduct) => {
         if (cartProduct.id === productId) {
@@ -113,7 +109,6 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
             quantity: cartProduct.quantity + 1,
           };
         }
-
         return cartProduct;
       }),
     );

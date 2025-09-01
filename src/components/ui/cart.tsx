@@ -13,6 +13,28 @@ import { Button } from "./button";
 const Cart = () => {
   const { products, subtotal, total, totalDiscount } = useContext(CartContext);
 
+  // Função para montar a mensagem do WhatsApp
+  const formatWhatsAppMessage = () => {
+    let message = "Olá, gostaria de fazer o pedido:\n\n";
+
+    products.forEach((product, index) => {
+      message += `${index + 1}. ${product.name} - Quantidade: ${product.quantity} - Preço unitário: R$ ${product.totalPrice.toFixed(2)}\n`;
+    });
+
+    message += `\nSubtotal: R$ ${subtotal.toFixed(2)}`;
+    message += `\nDescontos: R$ ${Math.abs(totalDiscount).toFixed(2)}`;
+    message += `\nTotal: R$ ${total.toFixed(2)}`;
+
+    return encodeURIComponent(message);
+  };
+
+  // Função para abrir o WhatsApp com a mensagem
+  const handleCheckoutClick = () => {
+    const phoneNumber = "5593999034526"; // Coloque o número do WhatsApp da sua loja aqui (com código do país e DDD)
+    const url = `https://wa.me/${phoneNumber}?text=${formatWhatsAppMessage()}`;
+    window.open(url, "_blank");
+  };
+
   return (
     <div className="flex h-full flex-col gap-8">
       <Badge
@@ -70,7 +92,13 @@ const Cart = () => {
           <p>R$ {total.toFixed(2)}</p>
         </div>
 
-        <Button className="mt-7 font-bold uppercase">Finalizar compra</Button>
+        <Button
+          className="mt-7 font-bold uppercase"
+          onClick={handleCheckoutClick}
+          disabled={products.length === 0}
+        >
+          Finalizar compra
+        </Button>
       </div>
     </div>
   );
