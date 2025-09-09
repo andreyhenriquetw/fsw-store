@@ -5,6 +5,8 @@ import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
 import CartProvider from "@/providers/cart";
 
+import WhatsAppButton from "@/components/ui/WhatsAppButton";
+
 import { ToastContainer } from "react-toastify"; // importação toastify
 import "react-toastify/dist/ReactToastify.css"; // estilos toastify
 
@@ -31,6 +33,10 @@ export default function RootLayout({
             {/* Container para as notificações toastify */}
             <ToastContainer position="top-right" autoClose={3000} />
           </CartProvider>
+          <>
+            {/* outros componentes globais */}
+            <WhatsAppButton />
+          </>
         </div>
       </body>
     </html>
