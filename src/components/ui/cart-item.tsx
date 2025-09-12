@@ -83,7 +83,7 @@ const CartItem = ({ product }: CartItemProps) => {
 
       {/* PARTE ESQUERDA (BOTÃO DE DELETAR) */}
       <Button size="icon" variant="outline" onClick={handleRemoveProductClick}>
-        <TrashIcon className="h-4 w-4 lg:h-5 lg:w-5" />
+        <TrashIcon size={16} />
       </Button>
     </div>
   );
