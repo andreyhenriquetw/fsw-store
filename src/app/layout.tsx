@@ -5,6 +5,9 @@ import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
 import CartProvider from "@/providers/cart";
 
+import Search from "@/components/ui/search";
+import SearchProvider from "@/providers/use-search";
+
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 
 import { ToastContainer } from "react-toastify"; // importação toastify
@@ -26,17 +29,20 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className={inter.className}>
         <div className="flex h-full flex-col">
-          <CartProvider>
-            <Header />
-            <div className="flex-1">{children}</div>
-            <Footer />
-            {/* Container para as notificações toastify */}
-            <ToastContainer
-              position="top-right"
-              theme="dark"
-              autoClose={3000}
-            />
-          </CartProvider>
+          <SearchProvider>
+            <CartProvider>
+              <Header />
+              <Search />
+              <div className="flex-1">{children}</div>
+              <Footer />
+              {/* Container para as notificações toastify */}
+              <ToastContainer
+                position="top-right"
+                theme="dark"
+                autoClose={3000}
+              />
+            </CartProvider>
+          </SearchProvider>
           <>
             {/* outros componentes globais */}
             <WhatsAppButton />
