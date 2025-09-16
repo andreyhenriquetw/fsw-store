@@ -25,7 +25,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Vapes e Cigarros Eletrônicos | Loja Ignite e Mais",
   description:
-    "Vape e cigarros eletrônicos, acessórios de alta qualidade. Compre online com segurança e entrega para todo Brasil.",
+    "Vape e Cigarros eletrônicos, acessórios de alta qualidade. Compre online com segurança e entrega para todo Brasil.",
   icons: {
     icon: "/favicon.ico", // Ícone do site (fica na pasta /public)
   },
